@@ -62,9 +62,8 @@ class Validation {
       .object({
         id: z.string().min(1).max(255).refine((value) => Types.ObjectId.isValid(value), {
           message: 'Invalid ObjectId format',
-        }),
-      })
-      .optional(),
+        })
+      }),
     body: z.object({
       match_date: z.date().optional(),
       home_team: z.string().min(1).max(255).optional(),
@@ -129,10 +128,10 @@ class Validation {
   // Validation schema for retrieving matches with specific criteria
   find = {
     query: z.object({
-      match_date: z.date().optional(),
+      match_date: z.string().optional(),
       home_team: z.string().optional(),
       away_team: z.string().optional(),
-      deleted: z.boolean().optional(),
+      deleted: z.string().optional(),
     }),
   };
 
@@ -156,7 +155,7 @@ class Validation {
   searchHomeTeamGoals = {
     query: z.object({
       'goals.home_team.player_name': z.string().optional(),
-      'goals.home_team.allowed': z.boolean().optional(),
+      'goals.home_team.allowed': z.string().optional(),
       'goals.home_team.goal_type': z.enum(['freekick', 'penalty', 'open']).optional(),
     }),
   };
@@ -165,7 +164,7 @@ class Validation {
   searchAwayTeamGoals = {
     query: z.object({
       'goals.away_team.player_name': z.string().optional(),
-      'goals.away_team.allowed': z.boolean().optional(),
+      'goals.away_team.allowed': z.string().optional(),
       'goals.away_team.goal_type': z.enum(['freekick', 'penalty', 'open']).optional(),
     }),
   };

@@ -9,11 +9,11 @@ import {
 import { matchController } from '../../../controllers'; // Replace with your match controller
 
 // Create a route for creating a new match
-router.post('/create', processRequestBody(matchValidation.create.body), matchController.create);
+router.post('/', processRequestBody(matchValidation.create.body), matchController.create);
 
 // Create a route for updating an existing match
 router.patch(
-  '/update/:id',
+  '/:id',
   [
     processRequestParams(matchValidation.update.params),
     processRequestBody(matchValidation.update.body),
