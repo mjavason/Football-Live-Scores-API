@@ -42,7 +42,7 @@ class Controller {
       return InternalErrorResponse(res, 'Unknown error occured while registering subscriber');
 
     const payload = JSON.stringify({
-      title: `Hello ${data.role}!`,
+      title: `Subscription Successful!`,
       body: 'This is your first push notification',
     });
 
@@ -64,7 +64,6 @@ class Controller {
 
   broadcastNotification = async (notificationTitle: string, notificationBody: string) => {
     const data = await notificationService.find({});
-
     if (!data) return false;
     if (data.length === 0) return false;
 
@@ -81,4 +80,3 @@ class Controller {
 }
 
 export const notificationController = new Controller();
-

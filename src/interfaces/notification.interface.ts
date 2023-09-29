@@ -1,9 +1,9 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
 interface INotification {
-    subscription: PushSubscription | Object | any;
-    role: string;
-    deleted?: boolean;
+  subscription: PushSubscription | Object | any;
+  room: string;
+  deleted?: boolean;
 }
 
 export default INotification;
