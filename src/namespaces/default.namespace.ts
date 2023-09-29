@@ -6,8 +6,10 @@ export function startDefaultNamespace(io: Server) {
   let counter = 0;
   let userId = '';
   io.on('connection', async (socket) => {
-    const { token } = socket.handshake.auth;
-    const user = await userAuthMiddleware(token);
+    console.log(socket.handshake);
+    const token = socket.handshake.query.token || 'xxxx';
+
+    const user = await userAuthMiddleware(token.toString());
 
     if (!user) {
       console.log('Invalid token');

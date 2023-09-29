@@ -73,4 +73,5 @@ export const DATABASES = {
   USER: 'user',
   RESET_TOKEN: 'reset_token',
   NOTIFICATION: 'notification',
+  MATCH:'match'
 };

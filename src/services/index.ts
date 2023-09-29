@@ -8,3 +8,4 @@ export { userService } from './user.service';
 export { mailService } from './mail.service';
 export { resetTokenService } from './reset_token.service';
 export { notificationService } from './notification.service';
+export { matchService } from './match.service';

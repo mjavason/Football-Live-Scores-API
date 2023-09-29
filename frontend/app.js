@@ -6,12 +6,10 @@ const header = document.getElementById('title');
 const serverUrl = 'http://localhost:5000';
 
 import { io } from 'https://cdn.socket.io/4.4.1/socket.io.esm.min.js';
-const socket = io(`${serverUrl}`, {
-  auth: {
-    token:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTE1YzQ1ZjlkMjFhZWNiOGQxODQzODciLCJyb2xlIjoidXNlciIsImlhdCI6MTY5NTkyNTY3NywiZXhwIjoxNjk2MDk4NDc3fQ.tNBsIZ1zpTuBZhPgkSM3uCU2LmxenqCJpsUgmB2fDCA', // Pass your authentication token here
-  },
-});
+const socket = io(
+  `${serverUrl}?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTE1YzQ1ZjlkMjFhZWNiOGQxODQzODciLCJyb2xlIjoidXNlciIsImlhdCI6MTY5NTkyNTY3NywiZXhwIjoxNjk2MDk4NDc3fQ.tNBsIZ1zpTuBZhPgkSM3uCU2LmxenqCJpsUgmB2fDCA`,
+  // {},
+);
 
 socket.on('hello', (arg1, arg2, arg3, arg4) => {
   console.log(arg1); // 1

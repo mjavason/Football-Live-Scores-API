@@ -31,7 +31,7 @@ class Controller {
     // res.status(200).send({ message: MESSAGES.DEFAULT, succcess: true });
   };
 
-  createNotification = async (req: Request, res: Response) => {
+  create = async (req: Request, res: Response) => {
     // const subscription = req.body;
     let newSubscriber = {
       subscription: req.body,
@@ -42,7 +42,7 @@ class Controller {
       return InternalErrorResponse(res, 'Unknown error occured while registering subscriber');
 
     const payload = JSON.stringify({
-      title: `Hello ${data.role}!`,
+      title: `Subscription Successful!`,
       body: 'This is your first push notification',
     });
 
@@ -52,7 +52,7 @@ class Controller {
     return SuccessResponse(res, data, 'Machine service subscribed successfully');
   };
 
-  findNotifications = async (req: Request, res: Response) => {
+  find = async (req: Request, res: Response) => {
     const data = await notificationService.find(req.query);
 
     if (!data) return InternalErrorResponse(res);
@@ -62,9 +62,8 @@ class Controller {
     return SuccessResponse<INotification[]>(res, data);
   };
 
-  broadcastNotification = async (notificationTitle: string, notificationBody: string) => {
+  broadcast = async (notificationTitle: string, notificationBody: string) => {
     const data = await notificationService.find({});
-
     if (!data) return false;
     if (data.length === 0) return false;
 
@@ -81,4 +80,3 @@ class Controller {
 }
 
 export const notificationController = new Controller();
-
