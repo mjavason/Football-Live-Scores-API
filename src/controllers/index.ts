@@ -8,3 +8,4 @@ export { mailController } from './mail.controller';
 export { socketController } from './socket.controller';
 export { resetTokenController } from './reset_token.controller';
 export { notificationController } from './notification.controller';
+export {matchController} from './match.controller';
