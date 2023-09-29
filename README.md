@@ -77,7 +77,7 @@ To subscribe to match updates, make a POST request to the `/subscribe` endpoint 
 Example using curl:
 
 ```bash
-curl -X POST https://football-livescore.onrender.com/subscribe -d "matchId=your-match-id&userId=your-user-id"
+curl -X POST https://football-livescore.onrender.com/subscribe -d "matchId=your-match-id"
 ```
 
 ## Documentation
