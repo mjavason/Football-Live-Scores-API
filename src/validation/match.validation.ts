@@ -15,42 +15,22 @@ class Validation {
         })
         .optional(),
       fouls: z
-        .object({
-          home_team_fouls: z
-            .array(
-              z.object({
-                player_name: z.string().min(1).max(255).optional(),
-                foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
-              }),
-            )
-            .optional(),
-          away_team_fouls: z
-            .array(
-              z.object({
-                player_name: z.string().min(1).max(255).optional(),
-                foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
-              }),
-            )
-            .optional(),
-        })
+        .array(
+          z.object({
+            player_name: z.string().min(1).max(255).optional(),
+            foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
+          }),
+        )
         .optional(),
       goals: z
-        .object({
-          home_team: z
-            .object({
-              player_name: z.string().min(1).max(255).optional(),
-              allowed: z.boolean().optional(),
-              goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
-            })
-            .optional(),
-          away_team: z
-            .object({
-              player_name: z.string().min(1).max(255).optional(),
-              allowed: z.boolean().optional(),
-              goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
-            })
-            .optional(),
-        })
+        .array(
+          z.object({
+            player_name: z.string().min(1).max(255).optional(),
+            allowed: z.boolean().optional(),
+            goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
+            home: z.boolean().optional(),
+          }),
+        )
         .optional(),
       deleted: z.boolean().optional(),
     }),
@@ -58,12 +38,11 @@ class Validation {
 
   // Validation schema for updating an existing match
   update = {
-    params: z
-      .object({
-        id: z.string().min(1).max(255).refine((value) => Types.ObjectId.isValid(value), {
-          message: 'Invalid ObjectId format',
-        })
+    params: z.object({
+      id: z.string().refine((value) => Types.ObjectId.isValid(value), {
+        message: 'Invalid ObjectId format',
       }),
+    }),
     body: z.object({
       match_date: z.date().optional(),
       home_team: z.string().min(1).max(255).optional(),
@@ -75,42 +54,23 @@ class Validation {
         })
         .optional(),
       fouls: z
-        .object({
-          home_team_fouls: z
-            .array(
-              z.object({
-                player_name: z.string().min(1).max(255).optional(),
-                foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
-              }),
-            )
-            .optional(),
-          away_team_fouls: z
-            .array(
-              z.object({
-                player_name: z.string().min(1).max(255).optional(),
-                foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
-              }),
-            )
-            .optional(),
-        })
+        .array(
+          z.object({
+            player_name: z.string().min(1).max(255).optional(),
+            foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
+            home: z.boolean().optional(),
+          }),
+        )
         .optional(),
       goals: z
-        .object({
-          home_team: z
-            .object({
-              player_name: z.string().min(1).max(255).optional(),
-              allowed: z.boolean().optional(),
-              goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
-            })
-            .optional(),
-          away_team: z
-            .object({
-              player_name: z.string().min(1).max(255).optional(),
-              allowed: z.boolean().optional(),
-              goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
-            })
-            .optional(),
-        })
+        .array(
+          z.object({
+            player_name: z.string().min(1).max(255).optional(),
+            allowed: z.boolean().optional(),
+            goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
+            home: z.boolean().optional(),
+          }),
+        )
         .optional(),
       deleted: z.boolean().optional(),
     }),
@@ -119,7 +79,7 @@ class Validation {
   // Validation schema for deleting a match
   delete = {
     params: z.object({
-      id: z.string().min(1).max(255).refine((value) => Types.ObjectId.isValid(value), {
+      id: z.string().refine((value) => Types.ObjectId.isValid(value), {
         message: 'Invalid ObjectId format',
       }),
     }),
@@ -138,34 +98,38 @@ class Validation {
   // Validation schema for searching home team fouls
   searchHomeTeamFouls = {
     query: z.object({
-      'fouls.home_team_fouls.player_name': z.string().optional(),
-      'fouls.home_team_fouls.foul_type': z.enum(['freekick', 'yellow', 'red']).optional(),
+      player_name: z.string().optional(),
+      foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
+      home: z.string().optional(),
     }),
   };
 
   // Validation schema for searching away team fouls
   searchAwayTeamFouls = {
     query: z.object({
-      'fouls.away_team_fouls.player_name': z.string().optional(),
-      'fouls.away_team_fouls.foul_type': z.enum(['freekick', 'yellow', 'red']).optional(),
+      player_name: z.string().optional(),
+      foul_type: z.enum(['freekick', 'yellow', 'red']).optional(),
+      home: z.string().optional(),
     }),
   };
 
   // Validation schema for searching home team goals
   searchHomeTeamGoals = {
     query: z.object({
-      'goals.home_team.player_name': z.string().optional(),
-      'goals.home_team.allowed': z.string().optional(),
-      'goals.home_team.goal_type': z.enum(['freekick', 'penalty', 'open']).optional(),
+      player_name: z.string().optional(),
+      allowed: z.string().optional(),
+      goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
+      home: z.string().optional(),
     }),
   };
 
   // Validation schema for searching away team goals
   searchAwayTeamGoals = {
     query: z.object({
-      'goals.away_team.player_name': z.string().optional(),
-      'goals.away_team.allowed': z.string().optional(),
-      'goals.away_team.goal_type': z.enum(['freekick', 'penalty', 'open']).optional(),
+      player_name: z.string().optional(),
+      allowed: z.string().optional(),
+      goal_type: z.enum(['freekick', 'penalty', 'open']).optional(),
+      home: z.string().optional(),
     }),
   };
 }

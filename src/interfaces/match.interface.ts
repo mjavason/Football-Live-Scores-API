@@ -1,4 +1,4 @@
-import { Document, Schema } from 'mongoose';
+import { Document } from 'mongoose';
 
 interface IFoul {
   player_name: string;
@@ -19,14 +19,8 @@ export default interface IMatch extends Document {
     home_team_score: number;
     away_team_score: number;
   };
-  fouls: {
-    home_team_fouls: IFoul[];
-    away_team_fouls: IFoul[];
-  };
-  goals: {
-    home_team: IGoal;
-    away_team: IGoal;
-  };
+  fouls: IFoul[]; // Combined fouls for both home and away teams
+  goals: IGoal[]; // Combined goals for both home and away teams
   deleted: boolean;
   createdAt: Date;
   updatedAt: Date;

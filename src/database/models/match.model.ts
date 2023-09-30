@@ -2,6 +2,9 @@ import { Schema, model } from 'mongoose';
 import { DATABASES } from '../../constants';
 import IMatch from '../../interfaces/match.interface';
 
+const foulTypeEnum = ['freekick', 'yellow', 'red'];
+const goalTypeEnum = ['freekick', 'penalty', 'open'];
+
 const MatchSchema = new Schema<IMatch>(
   {
     match_date: {
@@ -10,71 +13,67 @@ const MatchSchema = new Schema<IMatch>(
     },
     home_team: {
       type: String,
+      required: true,
     },
     away_team: {
       type: String,
+      required: true,
     },
     full_time_score: {
-      home_team_score: {
-        type: Number,
-        default: 0,
-      },
-      away_team_score: {
-        type: Number,
-        default: 0,
+      type: {
+        home_team_score: {
+          type: Number,
+          default: 0,
+        },
+        away_team_score: {
+          type: Number,
+          default: 0,
+        },
       },
     },
     fouls: {
-      home_team_fouls: {
-        type: [
-          {
-            player_name: String,
-            foul_type: {
-              type: String,
-              enum: ['freekick', 'yellow', 'red'],
-            },
+      type: [
+        {
+          home: {
+            type: Boolean,
+            default: true, // Indicates home team
           },
-        ],
-        default: [],
-      },
-      away_team_fouls: {
-        type: [
-          {
-            player_name: String,
-            foul_type: {
-              type: String,
-              enum: ['freekick', 'yellow', 'red'],
-            },
+          player_name: String,
+          foul_type: {
+            type: String,
+            enum: foulTypeEnum,
+            default: 'freekick',
           },
-        ],
-        default: [],
-      },
+        },
+      ],
+      default: [],
     },
     goals: {
-      home_team: {
-        player_name: String,
-        allowed: Boolean,
-        goal_type: {
-          type: String,
-          enum: ['freekick', 'penalty', 'open'],
+      type: [
+        {
+          home: {
+            type: Boolean,
+            default: true, // Indicates home team
+          },
+          player_name: String,
+          allowed: {
+            type: Boolean,
+            default: true,
+          },
+          goal_type: {
+            type: String,
+            enum: goalTypeEnum,
+            default: 'freekick',
+          },
         },
-      },
-      away_team: {
-        player_name: String,
-        allowed: {
-          default: true,
-          type: Boolean,
-        },
-        goal_type: {
-          type: String,
-          enum: ['freekick', 'penalty', 'open'],
-        },
-      },
+      ],
+      default: [],
     },
     deleted: {
       type: Boolean,
       select: false,
       default: false,
+      required: false,
     },
   },
   {
